@@ -56,6 +56,8 @@ export class AppController {
     }),
   )
   async getCID(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
+
     const importResult = await lotusClient.client.import({
       Path: join(__dirname, '..', file.path),
       IsCAR: false,
