@@ -1,0 +1,65 @@
+import {
+  Controller,
+  Get,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { AppService } from './app.service';
+import { HttpJsonRpcConnector, LotusClient } from 'filecoin.js';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname, join } from 'path';
+import { diskStorage } from 'multer';
+let localNode;
+let adminAuthToken;
+
+if (process.env.NODE_ENV === 'production') {
+  localNode = 'http://127.0.0.1:1234/rpc/v0';
+  adminAuthToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.6hSKU05F78yi8QoF7q8DHilcCjFB_aA4nvvuvxM4lPg';
+} else {
+  localNode = 'http://127.0.0.1:1234/rpc/v0';
+  adminAuthToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.BRe5of96dfyIFnj1VD38BbGMJzszCaF4MukrLUDqAm0';
+}
+
+const localConnector = new HttpJsonRpcConnector({
+  url: localNode,
+  token: adminAuthToken,
+});
+const lotusClient = new LotusClient(localConnector);
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
+  }
+
+  @Post('file')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './upload',
+        filename: (req, file, callback) => {
+          const name = file.originalname.split('.')[0];
+          const fileExtName = extname(file.originalname);
+          const randomName = Array(4)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          callback(null, `${name}-${randomName}${fileExtName}`);
+        },
+      }),
+    }),
+  )
+  async getCID(@UploadedFile() file: Express.Multer.File) {
+    const importResult = await lotusClient.client.import({
+      Path: join(__dirname, '..', file.path),
+      IsCAR: false,
+    });
+    return { cid: importResult?.Root?.['/'] };
+  }
+}
