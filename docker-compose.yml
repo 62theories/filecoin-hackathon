@@ -5,7 +5,5 @@ services:
     container_name: fvmhackdockerservice_contianername
     build: .
     command: npm run start:prod
-    ports:
-      - 5003:3000
     restart: unless-stopped
     network_mode: "host"  
