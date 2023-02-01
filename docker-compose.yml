@@ -8,3 +8,4 @@ services:
     ports:
       - 5003:3000
     restart: unless-stopped
+    network_mode: "host"  
