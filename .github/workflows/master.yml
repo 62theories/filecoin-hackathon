@@ -10,8 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: down docker
-        run: docker compose down
+        run: docker-compose down
       - name: clear unused image
         run: yes | docker system prune -a
       - name: Run Docker Compose
-        run: docker compose up --build --force-recreate -d
+        run: docker-compose up --build --force-recreate -d
