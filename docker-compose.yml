@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  fvmhackdockerservice:
+    container_name: fvmhackdockerservice_contianername
+    build: .
+    command: npm run start:prod
+    ports:
+      - 5003:3000
+    restart: unless-stopped
