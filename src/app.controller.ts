@@ -14,7 +14,7 @@ let localNode;
 let adminAuthToken;
 
 if (process.env.NODE_ENV === 'production') {
-  localNode = 'http://127.0.0.1:1234/rpc/v0';
+  localNode = 'http://186.166.185.210:1234/rpc/v0';
   adminAuthToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.6hSKU05F78yi8QoF7q8DHilcCjFB_aA4nvvuvxM4lPg';
 } else {
