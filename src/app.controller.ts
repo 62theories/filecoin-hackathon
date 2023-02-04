@@ -60,7 +60,7 @@ export class AppController {
 
   @Get('offer/byowner/:owner')
   async getMyOffers(
-    @Query('owner')
+    @Param('owner')
     owner: string,
   ) {
     return this.appService.getMyOffers(owner);
