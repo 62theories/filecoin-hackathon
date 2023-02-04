@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -47,6 +48,11 @@ export class AppController {
     return this.appService.getOffers();
   }
 
+  @Get('offer/:id')
+  async getOffer(@Param('id') id: number) {
+    return this.appService.getOffer(id);
+  }
+
   @Post('offer')
   async createOffer(
     @Body('id')
@@ -61,6 +67,8 @@ export class AppController {
     filAmount: number,
     @Body('fileUrl')
     fileUrl: string,
+    @Body('size')
+    size: number,
   ) {
     await this.appService.createOffer(
       id,
@@ -69,6 +77,7 @@ export class AppController {
       duration,
       filAmount,
       fileUrl,
+      size,
     );
     return;
   }

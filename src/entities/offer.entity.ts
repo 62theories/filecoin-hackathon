@@ -18,6 +18,9 @@ export class Offer {
   deadline: number;
 
   @Column()
+  size: number;
+
+  @Column()
   duration: number;
 
   @Column()
