@@ -18,9 +18,12 @@ let localNode;
 let adminAuthToken;
 
 localNode = 'http://127.0.0.1:1234/rpc/v0';
+
+// server auth
 adminAuthToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.6hSKU05F78yi8QoF7q8DHilcCjFB_aA4nvvuvxM4lPg';
 
+// local auth
 // adminAuthToken =
 //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.BRe5of96dfyIFnj1VD38BbGMJzszCaF4MukrLUDqAm0';
 
@@ -37,6 +40,11 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Get('offer')
+  async getOffers() {
+    return this.appService.getOffers();
   }
 
   @Post('offer')

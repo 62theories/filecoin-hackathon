@@ -31,4 +31,8 @@ export class AppService {
     offer.fileUrl = fileUrl;
     return this.offersRepository.save(offer);
   }
+
+  getOffers() {
+    return this.offersRepository.find();
+  }
 }
