@@ -1,9 +1,15 @@
-version: '3.3'
-
+version: "3.8"
 services:
-  fvmhackdockerservice:
-    container_name: fvmhackdockerservice_contianername
-    build: .
-    command: npm run start:prod
-    restart: unless-stopped
-    network_mode: "host"  
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local

@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Post,
@@ -10,6 +11,9 @@ import { HttpJsonRpcConnector, LotusClient } from 'filecoin.js';
 import { extname, join } from 'path';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Offer } from './entities/offer.entity';
+import { Repository } from 'typeorm';
 let localNode;
 let adminAuthToken;
 
@@ -33,6 +37,32 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Post('offer')
+  async createOffer(
+    @Body('id')
+    id: number,
+    @Body('cid')
+    cid: string,
+    @Body('deadline')
+    deadline: number,
+    @Body('duration')
+    duration: number,
+    @Body('filAmount')
+    filAmount: number,
+    @Body('fileUrl')
+    fileUrl: string,
+  ) {
+    await this.appService.createOffer(
+      id,
+      cid,
+      deadline,
+      duration,
+      filAmount,
+      fileUrl,
+    );
+    return;
   }
 
   @Post('file')
