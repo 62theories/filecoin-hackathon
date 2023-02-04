@@ -58,6 +58,14 @@ export class AppController {
     return this.appService.getOffers();
   }
 
+  @Get('offer/byowner/:owner')
+  async getMyOffers(
+    @Query('owner')
+    owner: string,
+  ) {
+    return this.appService.getMyOffers(owner);
+  }
+
   @Get('offer/:id')
   async getOffer(@Param('id') id: number) {
     return this.appService.getOffer(id);
@@ -79,6 +87,8 @@ export class AppController {
     fileUrl: string,
     @Body('size')
     size: number,
+    @Body('owner')
+    owner: string,
   ) {
     await this.appService.createOffer(
       id,
@@ -88,6 +98,7 @@ export class AppController {
       filAmount,
       fileUrl,
       size,
+      owner,
     );
     return;
   }

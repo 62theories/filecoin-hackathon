@@ -22,6 +22,7 @@ export class AppService {
     filAmount: string,
     fileUrl: string,
     size: number,
+    owner: string,
   ) {
     const offer = new Offer();
     offer.id = id;
@@ -31,11 +32,20 @@ export class AppService {
     offer.filAmount = filAmount;
     offer.fileUrl = fileUrl;
     offer.size = size;
+    offer.owner = owner;
     return this.offersRepository.save(offer);
   }
 
   getOffers() {
     return this.offersRepository.find();
+  }
+
+  getMyOffers(owner: string) {
+    return this.offersRepository.find({
+      where: {
+        owner,
+      },
+    });
   }
 
   async getPendingOffers() {

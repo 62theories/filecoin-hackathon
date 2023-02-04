@@ -28,4 +28,7 @@ export class Offer {
 
   @Column()
   fileUrl: string;
+
+  @Column()
+  owner: string;
 }
