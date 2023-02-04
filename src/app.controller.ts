@@ -7,15 +7,18 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { HttpJsonRpcConnector, LotusClient } from 'filecoin.js';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { extname, join } from 'path';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 let localNode;
 let adminAuthToken;
 
 localNode = 'http://127.0.0.1:1234/rpc/v0';
+// adminAuthToken =
+//   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.6hSKU05F78yi8QoF7q8DHilcCjFB_aA4nvvuvxM4lPg';
+
 adminAuthToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.6hSKU05F78yi8QoF7q8DHilcCjFB_aA4nvvuvxM4lPg';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.BRe5of96dfyIFnj1VD38BbGMJzszCaF4MukrLUDqAm0';
 
 const localConnector = new HttpJsonRpcConnector({
   url: localNode,
@@ -44,18 +47,21 @@ export class AppController {
             .fill(null)
             .map(() => Math.round(Math.random() * 16).toString(16))
             .join('');
+          console.log(`${name}-${randomName}${fileExtName}`);
+
           callback(null, `${name}-${randomName}${fileExtName}`);
         },
       }),
     }),
   )
   async getCID(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-
     const importResult = await lotusClient.client.import({
       Path: join(__dirname, '..', file.path),
       IsCAR: false,
     });
-    return { cid: importResult?.Root?.['/'] };
+    return {
+      cid: importResult?.Root?.['/'],
+      fileUrl: `https://apifvmhack.ballx86.com/${file?.path}`,
+    };
   }
 }
