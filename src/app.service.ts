@@ -19,7 +19,7 @@ export class AppService {
     cid: string,
     deadline: number,
     duration: number,
-    filAmount: number,
+    filAmount: string,
     fileUrl: string,
     size: number,
   ) {

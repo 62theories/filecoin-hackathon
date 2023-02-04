@@ -74,7 +74,7 @@ export class AppController {
     @Body('duration')
     duration: number,
     @Body('filAmount')
-    filAmount: number,
+    filAmount: string,
     @Body('fileUrl')
     fileUrl: string,
     @Body('size')

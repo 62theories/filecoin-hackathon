@@ -24,7 +24,7 @@ export class Offer {
   duration: number;
 
   @Column()
-  filAmount: number;
+  filAmount: string;
 
   @Column()
   fileUrl: string;
