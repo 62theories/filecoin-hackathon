@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -44,7 +45,16 @@ export class AppController {
   }
 
   @Get('offer')
-  async getOffers() {
+  async getOffers(
+    @Query('status')
+    status: string,
+  ) {
+    if (status === 'pending') {
+      return this.appService.getPendingOffers();
+    }
+    if (status === 'notpending') {
+      return this.appService.getCompletedOffers();
+    }
     return this.appService.getOffers();
   }
 
