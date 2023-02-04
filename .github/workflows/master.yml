@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: install
-        run: npm install 
+        run: npm install --force
       - name: build
         run: npm run build
       - name: start
